@@ -5,3 +5,20 @@ IMDB_Sentiment_Classifier.h5
 *.csv
 tfidf_vectorizer.pkl
 *.pkl
+
+
+
+
+# Ignore large data and model files
+*.csv
+*.h5
+*.pkl
+*.npz
+*.npy
+*.zip
+*.gz
+*.tar
+*.tar.gz
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
