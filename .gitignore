@@ -1,2 +1,4 @@
 venv
 IMDB_Dataset.csv
+*.pkl
+*.h5
