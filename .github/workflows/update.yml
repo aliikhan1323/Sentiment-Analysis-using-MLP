@@ -1,20 +1,30 @@
-
 name: Keep Alive
 
 on:
-  schedule:
-    - cron: '*/1 * * * *'  # Every minute
   workflow_dispatch:
+  schedule:
+    - cron: '0 * * * *'  # Every hour (backup)
 
 jobs:
   update:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: |
+
+      - name: Update README
+        run: |
           echo "" >> README.md
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add .
           git commit -m "chore: keep alive" || exit 0
           git push
+
+      - name: Retrigger every 30 sec
+        run: |
+          sleep 30
+          curl -X POST \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/${{ github.repository }}/actions/workflows/update.yml/dispatches \
+            -d '{"ref":"main"}'
