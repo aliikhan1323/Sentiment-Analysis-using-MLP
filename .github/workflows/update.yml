@@ -5,6 +5,10 @@ on:
   schedule:
     - cron: '0 * * * *'  # Every hour (backup)
 
+permissions:
+  contents: write   # Allows push to repo
+  actions: write    # Allows retriggering workflow
+
 jobs:
   update:
     runs-on: ubuntu-latest
@@ -20,7 +24,7 @@ jobs:
           git commit -m "chore: keep alive" || exit 0
           git push
 
-      - name: Retrigger every 30 sec
+      - name: Retrigger in 30 seconds
         run: |
           sleep 30
           curl -X POST \
